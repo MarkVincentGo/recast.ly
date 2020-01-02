@@ -1,7 +1,13 @@
-var Search = () => (
+var Search = (props) => (
   <div className="search-bar form-inline">
-    <input className="form-control" type="text" onChange={() => console.log(this.text)}/>
-    <button className="btn hidden-sm-down">
+    <input className="form-control" type="text"
+      onChange={(event) => { props.changeQuery(event) } }
+      onKeyDown={(event)=> {
+        if (event.key === 'Enter') {
+          props.submit();
+        }
+      }}/>
+    <button className="btn hidden-sm-down" onClick={(event)=>props.submit()}>
       <span className="glyphicon glyphicon-search"></span>
     </button>
   </div>

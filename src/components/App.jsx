@@ -1,7 +1,6 @@
 import VideoList from './VideoList.js';
 import exampleVideoData from '../data/exampleVideoData.js';
 import VideoPlayer from './VideoPlayer.js';
-import searchYouTube from '../lib/searchYouTube.js';
 import Search from './Search.js';
 import APIKey from '../config/youtube.js';
 
@@ -9,12 +8,13 @@ class App extends React.Component {
   constructor(props) {
     super(props),
     this.state = {
-      currentVideo: exampleVideoData[1],
       options: {
-        APIKey: APIKey,
-        maxNumber: 5,
-        q: 'something'
-      }
+        key: APIKey,
+        max: 5,
+        query: 'dogs'
+      },
+      videoArray: exampleVideoData,
+      currentVideo: exampleVideoData[1]
     };
 
   }
@@ -26,13 +26,35 @@ class App extends React.Component {
     });
   }
 
+  changeQuery(event) {
+    this.setState({
+      options: {
+        key: APIKey,
+        max: 5,
+        query: event.target.value
+      }
+    });
+    this.searchYouTube();
+  }
+
+  searchYouTube() {
+    console.log(this.state.videoArray);
+    this.props.searchYouTube(this.state.options, (data) => this.setState({
+      videoArray: data
+    })
+    );
+
+
+  }
+
+
+
   render() {
-    //this.props.searchYouTube({}, () => {});
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search />
+            <Search changeQuery={this.changeQuery.bind(this)} submit={this.searchYouTube.bind(this)}/>
           </div>
         </nav>
         <div className="row">
@@ -40,7 +62,7 @@ class App extends React.Component {
             <VideoPlayer video={this.state.currentVideo} />
           </div>
           <div className="col-md-5">
-            <VideoList onClick={this.selectVideo.bind(this)}videos={exampleVideoData} />
+            <VideoList onClick={this.selectVideo.bind(this)} videos={this.state.videoArray} />
           </div>
         </div>
       </div>

@@ -10,8 +10,9 @@
     "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash"
   },
   "dependencies": {
+    "babel": "^6.23.0",
     "bootstrap": "^4.0.0-alpha.2",
-    "jquery": "^2.2.1",
+    "jquery": "^3.4.1",
     "live-server": "^1.2.1",
     "lodash": "^4.6.1",
     "react": "^0.14.7",
@@ -22,7 +23,7 @@
     "babel-plugin-react": "1.0.0",
     "babel-preset-react": "^6.5.0",
     "chai": "^3.5.0",
-    "mocha": "2.3.3",
+    "mocha": "^6.2.2",
     "sinon": "1.17.3"
   }
 }

@@ -1,20 +1,26 @@
-var searchYouTube = (options, callback) => {
-  var returnObj = $.ajax({
+var searchYouTube = (options, callback = () => {}) => {
+
+  $.ajax({
     data: {
-      maxResults: 5,
-      key: 'AIzaSyDVXgPDFrLqm_YHqo37TcIjB3hGga7QbqI',
-      q: 'dogs',
+      key: options.key,
+      q: options.query,
+      maxResults: options.max,
+      videoEmbeddable: 'true',
+      type: 'video',
       part: 'snippet'
+    },
+    dataFilter: (data) => {
+      data = JSON.parse(data);
+      data = data.items;
+      data = JSON.stringify(data);
+      return data;
     },
     dataType: 'json',
     type: 'GET',
     url: 'https://www.googleapis.com/youtube/v3/search',
-    success:
-  });
-
-  return returnObj;
-
-
+    timeout: 1500,
+    success: callback
+  }).done();
 };
 
 export default searchYouTube;
